@@ -1,0 +1,79 @@
+﻿@model SentientgeeksMVC.Models.Employee
+
+@{
+    ViewBag.Title = "create";
+}
+<div class="form-horizontal">
+    <h4>&nbsp;&nbsp;Employee</h4>
+    
+       
+  
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model=>model.EmpId)
+<fieldset style="background-color: white; padding: 110px; margin: 0 auto; border-style: outset; text-align: left ">
+    
+    <h5><span style="color:red">*</span>All are required</h5>
+    
+        <div class="col-md-10">
+            <label for="firstname" style="font-weight: bold">Name<span style="color:red">*</span></label>
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        </div>
+  
+
+    
+        <div class="col-md-10">
+            <label for="firstname" style="font-weight: bold">Email<span style="color:red">*</span></label>
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+        </div>
+   
+
+    
+        <div class="col-md-10">
+            <label for="firstname" style="font-weight: bold">Address<span style="color:red">*</span></label>
+            @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+        </div>
+   
+
+    
+        <div class="col-md-10">
+            <label for="firstname" style="font-weight: bold">Phoneno<span style="color:red">*</span></label>
+            @Html.EditorFor(model => model.Phoneno, new { htmlAttributes = new { @class = "form-control", maxlength = "10" }, })
+            @Html.ValidationMessageFor(model => model.Phoneno, "", new { @class = "text-danger" })
+        </div>
+ 
+    <br />
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10"> 
+            <p>
+                <input type="submit" id="Click" value="Save" style="color:brown;font-family:Arial;background-color:aquamarine; font-size:large" />
+                <button type="button" onclick="CloseModalPopup();">Cancel</button>
+            </p>
+        </div>
+    </div>
+
+</fieldset>
+
+}
+
+</div>
+
+
+<script>
+   
+
+
+    function CloseModalPopup() {
+        $("#myModal").modal('hide');
+    }
+
+    
+</script>

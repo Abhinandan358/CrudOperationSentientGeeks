@@ -1,0 +1,234 @@
+﻿@model IEnumerable<SentientgeeksMVC.Models.Employee>
+
+@{
+    ViewBag.Title = "Empdetails";
+    //WebGrid webGrid = new WebGrid(source: Model, canPage: false, canSort: false);
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+@*<div>
+    <p>
+        <button style="background-color:greenyellow">
+            <a href="javascript:void(0);" class="anchorDetail"><i class="fas fa-user-plus"></i>&nbsp;&nbsp;Add Employee</a>
+            
+        </button>
+        <button id="btnalldel" style="background-color:red"><i class="fa fa-removeDelete"></i>Delete All</button>
+           
+    </p>
+</div>*@
+
+<table class="table">
+    <tr>
+        <th>
+            <input type="checkbox" id="checkAll" name="checkall" value="0">
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Phoneno)
+        </th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+               <input type="checkbox" id="@item.EmpId" name="checkEmp" value="@item.EmpId">
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phoneno)
+            </td>
+            <td>
+                @*@Html.ActionLink("Edit", "Edit", new { id = item.EmpId }) |*@
+                @*@Html.ActionLink("Details", "Details", new { id = item.EmpId }) |*@
+                <a href="javascript:void(0);" class="anchorDetail2" data-id="@item.EmpId"><i class="fa fa-edit" style="color:red"></i></a>
+                &nbsp;&nbsp;
+                <a href="javascript:void(0);" class="Del" data-id="@item.EmpId"><i class="fa fa-trash-o" style="color:red" ></i></a>
+                @*<input type="submit" class="del" value="Delete" onclick="return confirm('Are you sure you want to delete record with ID = @item.EmpId');" />*@
+            </td>
+        </tr>
+    }
+
+</table>
+<div id='myModal' class='modal'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+
+</div>
+
+<div id='myModal2' class='modal'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent2'></div>
+        </div>
+    </div>
+
+</div>
+@section scripts
+{
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script>
+        /*Insert*/
+        var TeamDetailPostBackURL = '/Employee/create';
+        $(function () {
+            $(".anchorDetail").click(function () {
+                debugger;
+                var $buttonClicked = $(this);
+                //var id = $buttonClicked.attr('data-id');
+                var options = { "backdrop": "static", keyboard: true };
+                $.ajax({
+                    type: "GET",
+                    url: TeamDetailPostBackURL,
+                    contentType: "application/json; charset=utf-8",
+                    //data: { "Id": id },
+                    datatype: "json",
+                    success: function (data) {
+                        debugger;
+                        $('#myModalContent').html(data);
+                        $('#myModal').modal(options);
+                        $('#myModal').modal('show');
+
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed.");
+                    }
+                });
+            });
+            //$("#closebtn").on('click',function(){
+            //    $('#myModal').modal('hide');
+
+            $("#closbtn").click(function () {
+                $('#myModal').modal('hide');
+            });
+        });
+
+        /*Edit Data*/
+        var EditURL = '/Employee/Edit';
+        $(function () {
+            $(".anchorDetail2").click(function () {
+                debugger;
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+
+                var options = { "backdrop": "static", keyboard: true };
+                $.ajax({
+                    type: "GET",
+                    url: EditURL,
+                    contentType: "application/json; charset=utf-8",
+                    data: { "Id": id },
+                    datatype: "json",
+                    success: function (data) {
+                        debugger;
+                        $('#myModalContent').html(data);
+                        $('#myModal').modal(options);
+                        $('#myModal').modal('show');
+
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed.");
+                    }
+                });
+            });
+
+
+            $("#closbtn").click(function () {
+                $('#myModal').modal('hide');
+            });
+        });
+        /*Delete */
+        var DelURL = '/Employee/Delete';
+        $(function () {
+            $(".Del").click(function () {
+                debugger;
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+
+                var options = { "backdrop": "static", keyboard: true };
+                $.ajax({
+                    type: "GET",
+                    url: DelURL,
+                    contentType: "application/json; charset=utf-8",
+                    data: { "Id": id },
+                    datatype: "json",
+                    success: function (data) {
+                        debugger;
+                        $('#myModalContent2').html(data);
+                        $('#myModal2').modal(options);
+                        $('#myModal2').modal('show');
+
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed.");
+                    }
+                });
+            });
+
+
+            $("#closbtn").click(function () {
+                $('#myModal').modal('hide');
+            });
+        });
+
+
+        /*Checkbox check header and select all checkbox */
+        $("#checkAll").click(function () {
+            $('input:checkbox').not(this).prop('checked', this.checked);
+        });
+
+
+        /*On click Delete all data*/
+        
+        $('#btnalldel').on('click', function (e) {
+            e.preventDefault();
+            
+            let array = [];
+            $("input:checkbox[name=checkEmp]:checked").each(function () {
+                array.push($(this).val());
+            });
+            
+            var options = {};
+            options.url = "/Employee/DeleteAll";
+            options.type = "POST";
+            options.data = JSON.stringify(array);
+            
+            options.contentType = "application/json";
+            options.dataType = "json";
+            options.success = function (msg) {
+                alert(msg);
+            };
+            options.error = function () {
+                alert("Error while deleting the records!");
+            };
+            $.ajax(options);
+        }); 
+
+
+        
+    </script>
+
+
+}
+
+

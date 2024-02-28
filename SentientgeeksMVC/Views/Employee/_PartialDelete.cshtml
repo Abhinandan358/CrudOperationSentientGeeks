@@ -1,0 +1,47 @@
+﻿@model SentientgeeksMVC.Models.Employee
+
+<h3>&nbsp;&nbsp;Are you sure you want to delete this?</h3>
+<div>
+    
+    <hr />
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <fieldset style="background-color: white; padding: 40px; margin: 0 auto; border-style: outset; text-align: left ">
+            <dl class="dl-horizontal">
+                @Html.HiddenFor(model => model.EmpId)
+                <dd>
+                    <label for="firstname" style="font-weight: bold">Name<span style="color:red">*</span></label>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+                <dd>
+                    <label for="firstname" style="font-weight: bold">Address<span style="color:red">*</span></label>
+                    @Html.DisplayFor(model => model.Address)
+                </dd>
+                <dd>
+                    <label for="firstname" style="font-weight: bold">Email<span style="color:red">*</span></label>
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+                <dd>
+                    <label for="firstname" style="font-weight: bold">Phoneno<span style="color:red">*</span></label>
+                    @Html.DisplayFor(model => model.Phoneno)
+                </dd>
+           </dl>
+
+            <div class="form-actions no-color">
+                <input type="submit" id="Click" value="Delete" style="color:red;font-family:Arial;background-color:aquamarine; font-size:large" />
+                <button type="button" style="color:black" onclick="CloseModalPopup();">Cancel</button>
+            </div>
+        </fieldset>
+    }
+
+</div>
+
+<script>
+    function CloseModalPopup() {
+        $("#myModal2").modal('hide');
+    }
+
+
+</script>
+
